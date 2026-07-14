@@ -26,7 +26,6 @@ Email [GIVEN_NAME_1] [SURNAME_1] at [EMAIL_1].
 - [Categories](#categories)
 - [Model and caching](#model-and-caching)
 - [Examples](#examples)
-- [Requirements](#requirements)
 - [License](#license)
 
 ## Features
@@ -41,6 +40,8 @@ Email [GIVEN_NAME_1] [SURNAME_1] at [EMAIL_1].
 ## Swift
 
 ### Install
+
+Requirements: iOS 16+, macOS 13+, tvOS 16+, visionOS 1+, and Swift 5.9+.
 
 Add Redact with Swift Package Manager:
 
@@ -134,6 +135,8 @@ public struct Redaction: Sendable {
 ## Android
 
 ### Install
+
+Requirements: Android API 24+. The AAR contains prebuilt arm64-v8a and x86_64 native libraries.
 
 Redact is published to Maven Central.
 
@@ -246,6 +249,8 @@ data class Redaction(
 ## JavaScript and TypeScript
 
 ### Install
+
+Requirements: a modern Node or browser runtime with `onnxruntime-node` or `onnxruntime-web`.
 
 Node:
 
@@ -366,12 +371,6 @@ Passing an explicit `directory` makes that directory the model home. Existing va
 A SwiftUI example app is included in `Examples/RedactExample`. Open `Examples/RedactExample/RedactExample.xcodeproj` in Xcode and run.
 
 The JavaScript package README in `packages/redact-node` contains the npm-specific quick start that is published to npm.
-
-## Requirements
-
-- Swift: iOS 16+, macOS 13+, tvOS 16+, visionOS 1+, Swift 5.9+.
-- Android: Android API 24+. The AAR contains prebuilt arm64-v8a and x86_64 native libraries.
-- JavaScript: modern Node or browser runtime with `onnxruntime-node` or `onnxruntime-web`.
 
 ## License
 
