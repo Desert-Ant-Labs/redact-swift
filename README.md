@@ -110,7 +110,7 @@ let redact = Redact(bundle: RedactCoreMLResourcesBundle.bundle)
 
 ### Example
 
-[SwiftUI example app](Examples/RedactExample)
+[SwiftUI example app](Examples/RedactSwiftExample)
 
 ## Android
 

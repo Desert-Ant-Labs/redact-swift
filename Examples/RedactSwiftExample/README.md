@@ -1,4 +1,4 @@
-# Redact SwiftUI Example
+# Redact Swift Example
 
 A tiny SwiftUI app for trying Redact on Apple platforms.
 
