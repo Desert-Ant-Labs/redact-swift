@@ -13,15 +13,12 @@ Email [GIVEN_NAME_1] [SURNAME_1] at [EMAIL_1].
 - [Swift](#swift)
   - [Install](#install)
   - [Usage](#usage)
-  - [Swift API](#swift-api)
 - [Android](#android)
   - [Install](#install-1)
   - [Usage](#usage-1)
-  - [Android API](#android-api)
 - [JavaScript and TypeScript](#javascript-and-typescript)
   - [Install](#install-2)
   - [Usage](#usage-2)
-  - [TypeScript API](#typescript-api)
 - [Reversible redaction for LLMs](#reversible-redaction-for-llms)
 - [Categories](#categories)
 - [Model and caching](#model-and-caching)
@@ -107,29 +104,6 @@ import Redact
 import RedactCoreMLResources
 
 let redact = Redact(bundle: RedactCoreMLResourcesBundle.bundle)
-```
-
-### Swift API
-
-```swift
-public final class Redact: Sendable {
-    public init(directory: String? = nil)
-    public init(bundle: Bundle)
-    public func redaction(of text: String, options: Options = .init()) async throws -> Redaction
-    public func download(progress: @Sendable @escaping (Double) -> Void = { _ in }) async throws
-    public func isDownloaded() -> Bool
-}
-
-public struct Options: Sendable {
-    public var minimumConfidence: Double
-    public var labels: Set<Label>?
-}
-
-public struct Redaction: Sendable {
-    public let redactedText: String
-    public let items: [Item]
-    public func restore(_ processed: String) -> String
-}
 ```
 
 ## Android
@@ -220,32 +194,6 @@ val explicit = Redact(context, directory = modelDir) // explicit model directory
 val offline = Redact.bundled()                       // needs redact-onnx-resources
 ```
 
-### Android API
-
-```kotlin
-class Redact : AutoCloseable {
-    constructor(context: Context, directory: String? = null)
-    companion object { fun bundled(): Redact }
-
-    fun isDownloaded(): Boolean
-    suspend fun download()
-    suspend fun redaction(text: String, options: Options = Options()): Redaction
-    override fun close()
-}
-
-data class Options(
-    val minimumConfidence: Double = 0.6,
-    val labels: Set<String>? = null,
-)
-
-data class Redaction(
-    val redactedText: String,
-    val items: List<RedactionItem>,
-) {
-    fun restore(processed: String): String
-}
-```
-
 ## JavaScript and TypeScript
 
 ### Install
@@ -309,32 +257,6 @@ import * as ort from "onnxruntime-web";
 import { Redact } from "@desert-ant-labs/redact";
 
 const redact = await Redact.load({ ort });
-```
-
-### TypeScript API
-
-```ts
-class Redact {
-  static load(options?: LoadOptions): Promise<Redact>;
-  redaction(text: string, options?: Options): Promise<Redaction>;
-}
-
-interface LoadOptions {
-  directory?: string;
-  onProgress?: (fraction: number) => void;
-  ort?: unknown;
-}
-
-interface Options {
-  minimumConfidence?: number;
-  labels?: Iterable<string>;
-}
-
-interface Redaction {
-  redactedText: string;
-  items: RedactionItem[];
-  restore(processed: string): string;
-}
 ```
 
 ## Reversible redaction for LLMs
