@@ -2,12 +2,13 @@
   "name": "redact-wasm-example",
   "private": true,
   "type": "module",
-  "description": "node + headless-browser examples for packages/redact-node (run mise run wasm first)",
+  "description": "Node and headless-browser examples for @desert-ant-labs/redact",
   "scripts": {
     "node-example": "node main.mjs",
     "browser-example": "node browser-test.mjs"
   },
   "dependencies": {
+    "@desert-ant-labs/redact": "^0.3.0",
     "onnxruntime-node": "^1.24.3",
     "onnxruntime-web": "^1.24.3"
   },

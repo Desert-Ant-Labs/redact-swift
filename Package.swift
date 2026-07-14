@@ -13,8 +13,6 @@ import Foundation
 //   Sources/RedactAndroid    C ABI + Swift JNI -> packages/redact-kotlin (Android)
 //   Sources/RedactWeb         wasm entry point -> packages/redact-node
 //
-// See PACKAGING.md for building the Kotlin and node distributions.
-
 // Platforms that load resources from a SwiftPM bundle (Apple + Linux; Android
 // receives assets through the FFI and wasm through the JS host). Apple
 // platforms get only Core ML resources; Linux gets only ONNX resources.
@@ -58,7 +56,7 @@ let package = Package(
     dependencies: [
         // Reusable cross-platform primitives (Regex, JSON, TextNormalization,
         // ModelStore, FFIBuffer, HostBridge, CHostBridge).
-        .package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", revision: "e0271fda6d9b4f561d283ba6cbdf44bf0a3c7980"),
+        .package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "0.1.0"),
         // Portable `Double.exp` for the softmax (stdlib has no transcendentals;
         // this avoids a per-platform libm import and Foundation on Android/wasm).
         .package(url: "https://github.com/apple/swift-numerics", from: "1.0.0"),
