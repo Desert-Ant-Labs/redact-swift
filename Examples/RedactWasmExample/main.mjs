@@ -1,6 +1,6 @@
 // Node example for packages/redact-node with local WebAssembly and
 // onnxruntime-node inference.
-import { Redact } from "../../packages/redact-node/index.js";
+import { Redact } from "@desert-ant-labs/redact";
 
 // Redact downloads, verifies (SHA-256), and caches the model from the Hub;
 // onnxruntime-node runs inference. First run fetches; later runs are cached.

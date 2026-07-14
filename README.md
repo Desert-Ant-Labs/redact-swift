@@ -45,7 +45,7 @@ Requirements: iOS 16+, macOS 13+, tvOS 16+, visionOS 1+, and Swift 5.9+.
 Add Redact with Swift Package Manager:
 
 ```swift
-.package(url: "https://github.com/Desert-Ant-Labs/redact.git", from: "0.3.0")
+.package(url: "https://github.com/Desert-Ant-Labs/redact.git", from: "0.3.1")
 ```
 
 Then add the `Redact` product to your app target.
