@@ -4,18 +4,17 @@ import RealModule
 
 /// The full hybrid detector: tokenization, windowing, BIOES decoding, and the
 /// deterministic-owner merge. Inference goes through the shared
-/// `InferenceSession` (Core ML | ONNX Runtime | JS host, chosen by
-/// desert-ant-core); this file only knows redact's tensor layouts.
+/// `InferenceSession` (Core ML | LiteRT | JS host, chosen by
+/// desert-ant-core); this file only knows redact's fixed-256 tensor window.
 final class Model: @unchecked Sendable {
     private let session: any InferenceSession
-    private let layout: ModelLayout
     private let tokenizer: Tokenizer
     private let id2label: [Int: String]
 
     private static let seq = 256
     private static let maxContent = seq - 2      // room for <s> … </s>
     private static let lowScore = 0.3
-    // position_ids baked into the Core ML export: arange(pad+1, pad+1+seq).
+    // position_ids baked into the export: arange(pad+1, pad+1+seq).
     private static let positionIDs: [Int32] = (0..<seq).map { Int32(2 + $0) }
     private static let typeIDs = [Int32](repeating: 0, count: seq)
 
@@ -24,7 +23,6 @@ final class Model: @unchecked Sendable {
         tokenizer = tok
         id2label = try Model.parseLabels(assets.labelsJSON)
         session = assets.session
-        layout = assets.layout
     }
 
     /// `labels.json` is `{"id2label": {"0": "O", ...}}`; decode it with the
@@ -132,19 +130,16 @@ final class Model: @unchecked Sendable {
         return out
     }
 
-    // MARK: inference (redact's tensor layouts over the shared session)
+    // MARK: inference (redact's fixed-256 window over the shared session)
 
-    /// Run the token classifier over one window (<= 256 ids incl. specials).
-    /// Returns row-major logits, `ids.count * numLabels` values.
+    /// Run the token classifier over one window (<= 256 ids incl. specials):
+    /// both the Core ML and the LiteRT exports take a fixed 256, int32 window
+    /// with baked position ids, returning row-major logits (`ids.count *
+    /// numLabels` values, the first `realLen` rows real). The LiteRT `.tflite`
+    /// declares only `input_ids` and `attention_mask` (positions/type ids are
+    /// baked into the graph) and the session ignores extra inputs, so the same
+    /// tensor dict serves both.
     private func logits(ids: [Int]) async throws -> (values: [Float], numLabels: Int) {
-        switch layout {
-        case .paddedWindow: return try await paddedWindowLogits(ids: ids)
-        case .dynamicSequence: return try await dynamicSequenceLogits(ids: ids)
-        }
-    }
-
-    /// The Core ML export: fixed 256 window, int32 inputs, baked position ids.
-    private func paddedWindowLogits(ids: [Int]) async throws -> (values: [Float], numLabels: Int) {
         let realLen = ids.count
         guard realLen > 0, realLen <= Self.seq else { throw RedactError.predictionFailed }
         var padded = [Int32](repeating: 1, count: Self.seq)   // <pad>
@@ -168,21 +163,5 @@ final class Model: @unchecked Sendable {
         guard numLabels > 0, all.count >= realLen * numLabels else { throw RedactError.predictionFailed }
         // The window is padded to 256 rows; only the first realLen are real.
         return (Array(all[0..<(realLen * numLabels)]), numLabels)
-    }
-
-    /// The ONNX export: dynamic sequence length, int64 ids + mask.
-    private func dynamicSequenceLogits(ids: [Int]) async throws -> (values: [Float], numLabels: Int) {
-        let n = ids.count
-        guard n > 0 else { throw RedactError.predictionFailed }
-        let logits = try await session.run(
-            inputs: [
-                "input_ids": Tensor(int64: ids.map(Int64.init), shape: [1, n]),
-                "attention_mask": Tensor(int64: [Int64](repeating: 1, count: n), shape: [1, n]),
-            ],
-            outputs: ["logits"])[0]
-        guard let values = logits.float32Values, !values.isEmpty, values.count % n == 0 else {
-            throw RedactError.predictionFailed
-        }
-        return (values, values.count / n)
     }
 }

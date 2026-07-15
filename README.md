@@ -45,7 +45,7 @@ Requirements: iOS 16+, macOS 13+, tvOS 16+, visionOS 1+, and Swift 5.9+.
 Add Redact with Swift Package Manager:
 
 ```swift
-.package(url: "https://github.com/Desert-Ant-Labs/redact.git", from: "0.3.1")
+.package(url: "https://github.com/Desert-Ant-Labs/redact.git", from: "0.4.0")
 ```
 
 Then add the `Redact` product to your app target.
@@ -135,12 +135,12 @@ dependencies {
 }
 ```
 
-`ai.desertant:redact` downloads the model on demand and caches it under the app cache directory. To ship the ONNX model inside your APK or app bundle instead, add the resources artifact and use `Redact.bundled()`:
+`ai.desertant:redact` downloads the model on demand and caches it under the app cache directory. To ship the LiteRT model inside your APK or app bundle instead, add the resources artifact and use `Redact.bundled()`:
 
 ```kotlin
 dependencies {
     implementation("ai.desertant:redact:0.3.0")
-    implementation("ai.desertant:redact-onnx-resources:0.3.0")
+    implementation("ai.desertant:redact-tflite-resources:0.3.0")
 }
 ```
 
@@ -197,7 +197,7 @@ Use an explicit model directory or bundled resources:
 ```kotlin
 val cached = Redact(context)                         // managed cache
 val explicit = Redact(context, directory = modelDir) // explicit model directory
-val offline = Redact.bundled()                       // needs redact-onnx-resources
+val offline = Redact.bundled()                       // needs redact-tflite-resources
 ```
 
 ### Example
@@ -208,21 +208,13 @@ val offline = Redact.bundled()                       // needs redact-onnx-resour
 
 ### Install
 
-Requirements: a modern Node or browser runtime with `onnxruntime-node` or `onnxruntime-web`.
-
-Node:
+Requirements: a browser (or browser-like) runtime with `@litertjs/core` (LiteRT.js). Inference runs in the browser (XNNPACK-accelerated CPU by default, optional WebGPU); in plain Node the pipeline loads but the model session is unavailable.
 
 ```bash
-npm install @desert-ant-labs/redact onnxruntime-node
+npm install @desert-ant-labs/redact @litertjs/core
 ```
 
-Browsers and bundlers:
-
-```bash
-npm install @desert-ant-labs/redact onnxruntime-web
-```
-
-The ONNX Runtime package is a peer dependency so apps can choose the runtime that matches their environment.
+`@litertjs/core` is an optional peer dependency.
 
 ### Usage
 
@@ -260,13 +252,13 @@ const redact = await Redact.load({
 });
 ```
 
-Bring your own ONNX Runtime module, useful for browser bundlers and React Native:
+Bring your own LiteRT.js module, useful for browser bundlers and React Native:
 
 ```js
-import * as ort from "onnxruntime-web";
+import * as litert from "@litertjs/core";
 import { Redact } from "@desert-ant-labs/redact";
 
-const redact = await Redact.load({ ort });
+const redact = await Redact.load({ litert, litertWasmDir: "/path/to/@litertjs/core/wasm/" });
 ```
 
 ### Example
@@ -297,8 +289,8 @@ The model artifacts are published at [`desert-ant-labs/redact`](https://huggingf
 Default behavior:
 
 - Swift: downloads the Core ML model on demand to a managed cache, or uses bundled `RedactCoreMLResources`.
-- Android: downloads the ONNX model on demand to app cache, or uses bundled `ai.desertant:redact-onnx-resources`.
-- JavaScript: downloads the ONNX model on `Redact.load()` to the managed cache in Node or browser cache storage when available.
+- Android: downloads the LiteRT model on demand to app cache, or uses bundled `ai.desertant:redact-tflite-resources`.
+- JavaScript: downloads the LiteRT model on `Redact.load()` to the managed cache in Node or browser cache storage when available.
 
 Passing an explicit `directory` makes that directory the model home. Existing valid files are adopted for offline use; otherwise Redact downloads into that directory and reuses it later.
 

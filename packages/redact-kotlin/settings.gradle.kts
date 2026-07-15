@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "redact"
-include(":redact-onnx-resources")
+include(":redact-tflite-resources")

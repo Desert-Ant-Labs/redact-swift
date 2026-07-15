@@ -75,14 +75,14 @@ class Redact private constructor(private val handle: Long) : AutoCloseable {
     companion object {
         /**
          * A redactor using the model bundled in your app via the
-         * `ai.desertant:redact-onnx-resources` dependency (no network).
+         * `ai.desertant:redact-tflite-resources` dependency (no network).
          */
         fun bundled(): Redact {
             RedactNative.ensureLoaded()
             val handle = RedactNative.createBundled(
-                resource("redact_tokenizer.bin"), resource("labels.json"), resource("redact.onnx"))
+                resource("redact_tokenizer.bin"), resource("labels.json"), resource("redact.tflite"))
             if (handle == 0L) throw RedactException(
-                "bundled model unavailable; add the `ai.desertant:redact-onnx-resources` dependency")
+                "bundled model unavailable; add the `ai.desertant:redact-tflite-resources` dependency")
             return Redact(handle)
         }
 
@@ -98,7 +98,7 @@ class Redact private constructor(private val handle: Long) : AutoCloseable {
             (Redact::class.java.getResourceAsStream("/$name")
                 ?: throw RedactException(
                     "bundled model resource not found: $name. Add the " +
-                        "`ai.desertant:redact-onnx-resources` dependency, or use Redact(context)."))
+                        "`ai.desertant:redact-tflite-resources` dependency, or use Redact(context)."))
                 .use { it.readBytes() }
     }
 

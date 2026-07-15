@@ -20,6 +20,9 @@ internal object RedactNative {
         if (loaded) return
         synchronized(this) {
             if (loaded) return
+            // libRedactAndroid.so links libLiteRt.so (the LiteRT runtime); load it
+            // first so the dependency is resolvable regardless of link order.
+            System.loadLibrary("LiteRt")
             System.loadLibrary("RedactAndroid")
             loaded = true
         }

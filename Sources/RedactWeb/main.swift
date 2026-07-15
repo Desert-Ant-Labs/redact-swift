@@ -4,7 +4,7 @@ import JavaScriptKit
 @_spi(RedactBindings) import Redact
 
 // WebAssembly entry point. Mirrors the iOS/Swift SDK (redaction only). The JS
-// host must set `globalThis.__RedactHost` (an async ONNX session + runner, see
+// host must set `globalThis.__RedactHost` (an async LiteRT.js session + runner, see
 // `ModelLoading.swift`) before the first redaction. After start, the module
 // exposes:
 //

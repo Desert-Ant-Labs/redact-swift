@@ -26,4 +26,4 @@ node main.mjs "Email Anna at anna@example.com"
 npm run browser-example
 ```
 
-The first redaction downloads the pinned ONNX model to the local cache. Later runs use the cached model offline when the host cache is available.
+The first redaction downloads the pinned LiteRT model to the local cache. Later runs use the cached model offline when the host cache is available.

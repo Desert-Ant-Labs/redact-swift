@@ -4,7 +4,7 @@ import Foundation
 #if canImport(CoreML)
 import RedactCoreMLResources
 #else
-import RedactONNXResources
+import RedactTFLiteResources
 #endif
 
 /// Thread-safe Double for capturing progress across concurrency domains.
@@ -74,7 +74,7 @@ final class RedactTests: XCTestCase {
         #if canImport(CoreML)
         let bundle = RedactCoreMLResourcesBundle.bundle
         #else
-        let bundle = RedactONNXResourcesBundle.bundle
+        let bundle = RedactTFLiteResourcesBundle.bundle
         #endif
         let url = try XCTUnwrap(bundle.url(forResource: "redact_tokenizer", withExtension: "bin"))
         let tok = try XCTUnwrap(Tokenizer(bytes: [UInt8](try Data(contentsOf: url))))
@@ -122,7 +122,7 @@ final class RedactTests: XCTestCase {
         #if canImport(CoreML)
         Redact(bundle: RedactCoreMLResourcesBundle.bundle)
         #else
-        Redact(bundle: RedactONNXResourcesBundle.bundle)
+        Redact(bundle: RedactTFLiteResourcesBundle.bundle)
         #endif
     }
 
@@ -132,9 +132,9 @@ final class RedactTests: XCTestCase {
         let modelName = "redact.mlmodelc"
         let modelURL = try XCTUnwrap(bundle.url(forResource: "redact", withExtension: "mlmodelc"))
         #else
-        let bundle = RedactONNXResourcesBundle.bundle
-        let modelName = "redact.onnx"
-        let modelURL = try XCTUnwrap(bundle.url(forResource: "redact", withExtension: "onnx"))
+        let bundle = RedactTFLiteResourcesBundle.bundle
+        let modelName = "redact.tflite"
+        let modelURL = try XCTUnwrap(bundle.url(forResource: "redact", withExtension: "tflite"))
         #endif
         let directory = URL(fileURLWithPath: NSTemporaryDirectory())
             .appendingPathComponent("redact-local-\(UUID().uuidString)")

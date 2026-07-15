@@ -3,10 +3,15 @@
 On-device multilingual PII redaction for JavaScript (node and browsers). Finds
 names, addresses, emails, phone numbers, cards, IBANs, national IDs and more
 across the 24 official EU languages, fully locally: the package runs through a
-local WebAssembly runtime with inference via ONNX Runtime.
+local WebAssembly runtime with inference via LiteRT.js (`@litertjs/core`).
+
+Inference runs in the browser (LiteRT.js is a browser runtime, using an
+XNNPACK-accelerated CPU path by default and optional WebGPU). In plain Node the
+WebAssembly pipeline still loads, but the model session is unavailable, so use
+this in a browser (or a browser-like environment) for redaction.
 
 ```bash
-npm install @desert-ant-labs/redact onnxruntime-node   # or onnxruntime-web in browsers
+npm install @desert-ant-labs/redact @litertjs/core
 ```
 
 ```js
@@ -27,12 +32,14 @@ r.restore(reply);    // originals filled back in
   offline, otherwise the model is downloaded into it. Omit for the managed
   cache (`~/.cache/desert-ant-models/...`).
 - `onProgress`: download progress callback, fraction in `[0, 1]`.
-- `ort`: bring-your-own ONNX Runtime module (e.g. a bundler-managed
-  `onnxruntime-web` import).
+- `litert`: bring-your-own LiteRT.js module (the `@litertjs/core` namespace,
+  e.g. a bundler-managed import).
+- `litertWasmDir`: URL/path to the LiteRT.js Wasm files (defaults to the
+  installed package, or the jsDelivr CDN in the browser).
+- `accelerator`: `"wasm"` (XNNPACK CPU, default), `"webgpu"`, or `"webnn"`.
 
-The model repo and revision are pinned to the package version. onnxruntime-node
-/ onnxruntime-web are optional peer dependencies; the package picks whichever
-matches the environment.
+The model repo and revision are pinned to the package version. `@litertjs/core`
+is an optional peer dependency.
 
 The same model ships as a Swift package (iOS/macOS) and an Android AAR from the
 same repository: https://github.com/Desert-Ant-Labs/redact

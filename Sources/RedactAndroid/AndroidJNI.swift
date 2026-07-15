@@ -10,7 +10,7 @@ import HostBridge
 // Redact, with lazy loading, isDownloaded, download, and redaction.
 //
 // The model is either bundled (createBundled, bytes from the optional
-// redact-onnx-resources) or loaded on demand (create, download/local dir).
+// redact-tflite-resources) or loaded on demand (create, download/local dir).
 // Text crosses as UTF-8 byte arrays; the redaction result comes back as the
 // FFIBuffer length-prefixed typed buffer. Handles cross as jlong.
 
@@ -31,7 +31,7 @@ public func RedactNative_create(_ env: UnsafeMutablePointer<JNIEnv?>, _ cls: jcl
     }
 }
 
-/// Create a redactor from bundled model bytes (the redact-onnx-resources path).
+/// Create a redactor from bundled model bytes (the redact-tflite-resources path).
 @_cdecl("Java_ai_desertant_redact_RedactNative_createBundled")
 public func RedactNative_createBundled(_ env: UnsafeMutablePointer<JNIEnv?>, _ cls: jclass?,
                                              _ tokenizer: jbyteArray?, _ labelsJson: jbyteArray?, _ model: jbyteArray?) -> jlong {

@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "@desert-ant-labs/redact": "^0.3.0",
-    "onnxruntime-node": "^1.24.3",
-    "onnxruntime-web": "^1.24.3"
+    "@litertjs/core": "^2.5.2"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

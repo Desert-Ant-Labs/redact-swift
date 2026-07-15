@@ -20,7 +20,7 @@ packages/redact-kotlin/natives/
 packages/redact-kotlin/.gradle/
 packages/redact-kotlin/build/
 packages/redact-kotlin/src/main/resources/
-packages/redact-kotlin/redact-onnx-resources/src/main/resources/
-packages/redact-kotlin/redact-onnx-resources/build/
+packages/redact-kotlin/redact-tflite-resources/src/main/resources/
+packages/redact-kotlin/redact-tflite-resources/build/
 mise.local.toml
 mise.*.local.toml

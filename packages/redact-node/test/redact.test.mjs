@@ -1,5 +1,5 @@
 // The redact-node test suite. Runs through the WebAssembly runtime with model
-// files loaded from the local ONNX resources instead of the Hugging Face Hub.
+// files loaded from the local LiteRT resources instead of the Hugging Face Hub.
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import path from "node:path";
@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { Redact } from "../index.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const directory = path.join(here, "../../../Sources/RedactONNXResources/Resources");
+const directory = path.join(here, "../../../Sources/RedactTFLiteResources/Resources");
 
 let redact;
 let loadError;

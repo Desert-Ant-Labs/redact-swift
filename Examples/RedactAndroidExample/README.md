@@ -10,4 +10,4 @@ Connect a device or start an emulator, then run:
 ./gradlew :app:installDebug
 ```
 
-The first redaction downloads the pinned ONNX model to the app cache. Later runs use the cached model offline.
+The first redaction downloads the pinned LiteRT model to the app cache. Later runs use the cached model offline.

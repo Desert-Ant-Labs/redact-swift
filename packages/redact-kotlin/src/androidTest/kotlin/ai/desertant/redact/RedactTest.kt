@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
  * Instrumented tests for the Android binding, exercising the real on-device path
  * via JNI: java.util.regex, platform JSON via CHostBridge, system ICU for NFKC,
  * and the static-stdlib runtime. The bundled model comes from the
- * `redact-onnx-resources` androidTest dependency.
+ * `redact-tflite-resources` androidTest dependency.
  */
 @RunWith(AndroidJUnit4::class)
 class RedactTest {
