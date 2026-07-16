@@ -181,8 +181,9 @@ for f in packages/redact-kotlin/build.gradle.kts packages/redact-kotlin/redact-t
     sed -i.bak 's/^version = ".*"$/version = "'"$VERSION"'"/' "$f" && rm -f "$f.bak"
 done
 
-# The SwiftPM install snippet in the README.
+# The install snippets in the README: SwiftPM `from:` and the Maven coordinates.
 sed -i.bak 's|\\(url: "https://github.com/Desert-Ant-Labs/redact.git", from: "\\)[^"]*"|\\1'"$VERSION"'"|' README.md && rm -f README.md.bak
+sed -i.bak -E 's|(ai\\.desertant:redact(-tflite-resources)?:)[0-9]+\\.[0-9]+\\.[0-9]+|\\1'"$VERSION"'|g' README.md && rm -f README.md.bak
 
 mise run check-version >/dev/null
 echo "version set to $VERSION (package.json + lock, 2 Gradle modules, README)"

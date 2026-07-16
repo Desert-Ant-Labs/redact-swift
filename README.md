@@ -131,7 +131,7 @@ dependencyResolutionManagement {
 
 // build.gradle.kts
 dependencies {
-    implementation("ai.desertant:redact:0.3.0")
+    implementation("ai.desertant:redact:0.4.0")
 }
 ```
 
@@ -139,8 +139,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("ai.desertant:redact:0.3.0")
-    implementation("ai.desertant:redact-tflite-resources:0.3.0")
+    implementation("ai.desertant:redact:0.4.0")
+    implementation("ai.desertant:redact-tflite-resources:0.4.0")
 }
 ```
 
