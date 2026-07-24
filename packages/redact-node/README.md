@@ -66,4 +66,4 @@ same repository: https://github.com/Desert-Ant-Labs/redact
 
 [Desert Ant Labs Source-Available License 1.0](./LICENSE.md): free below
 100,000 monthly active devices per platform; above that a commercial license is
-required (licensing@desertant.ai). Full terms: https://license.desertant.ai/1.0
+required (licensing@desertant.com). Full terms: https://license.desertant.com/1.0
